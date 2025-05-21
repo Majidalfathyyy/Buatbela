@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ucapan Ulang Tahun Sahabat</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:wght@300;600&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fcefee, #ffd2d6);
+      overflow: hidden;
+    }
+
+    #loginScreen, #greetingScreen {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(255, 20, 70, 0.3);
+      padding: 30px 40px;
+      box-sizing: border-box;
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    h1 {
+      font-family: 'Sacramento', cursive;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: #ff405c;
+      text-shadow: 2px 2px 10px #f79ca8;
+      user-select: none;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 8px;
+      font-weight: 600;
+      color: #ff405c;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ff405c;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus {
+      border-color: #ff154f;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      background: #ff405c;
+      border: none;
+      outline: none;
+      color: white;
+      padding: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #ff405c88;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #ff154f;
+    }
+
+    .error {
+      color: #cc0033;
+      margin-top: 10px;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    /* Greeting Screen Styles */
+    #greetingScreen {
+      display: none;
+      color: #fff;
+      background: transparent;
+      width: 100vw;
+      max-width: none;
+      height: 100vh;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+      user-select: none;
+    }
+
+    #greetingScreen h2 {
+      font-family: 'Sacramento', cursive;
+      font-size: 4rem;
+      margin-top: 1rem;
+      text-shadow: 3px 3px 15px #ff064f;
+    }
+
+    #greetingScreen p {
+      font-size: 1.5rem;
+      margin: 20px auto 40px;
+      max-width: 600px;
+      text-shadow: 2px 2px 10px #ff8aa1;
+      line-height: 1.4;
+      padding: 0 10px;
+      user-select: none;
+    }
+
+    /* Confetti canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Text anim */
+    .bounceIn {
+      animation: bounceIn 1s forwards;
+    }
+
+    .fadeInDelay {
+      animation: fadeIn 1.5s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes bounceIn {
+      0%   { opacity: 0; transform: scale(0.3) translateY(100px);}
+      50%  { opacity: 1; transform: scale(1.05) translateY(-10px);}
+      70%  { transform: scale(0.9) translateY(5px);}
+      100% { transform: scale(1) translateY(0);}
+    }
+.profile-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #ff405c;
+  margin: 0 auto 20px;
+  display: block;
+  box-shadow: 0 5px 15px rgba(255, 20, 70, 0.3);
+}
+#giftButton {
+  background: #ff6b8b;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  margin: 20px auto;
+  display: block;
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 107, 139, 0.4);
+  transition: transform 0.3s, background 0.3s;
+}
+
+#giftButton:hover {
+  background: #ff4d73;
+  transform: scale(1.05);
+}
+
+.memory-photo {
+  width: 80%;
+  max-width: 400px;
+  border-radius: 15px;
+  border: 5px solid white;
+  margin: 20px auto;
+  display: block;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.memory-caption {
+  text-align: center;
+  font-style: italic;
+  color: #fff;
+  font-size: 1.1rem;
+  max-width: 80%;
+  margin: 0 auto 30px;
+}
+/* CSS */
+#giftContainer {
+  text-align: center;
+  margin: 30px auto;
+  cursor: pointer;
+}
+
+.gift-shape {
+  width: 200px;  /* Lebar persegi panjang */
+  height: 120px; /* Tinggi persegi panjang */
+  background: #ff405c; /* Warna merah */
+  margin: 0 auto;
+  position: relative;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(255, 64, 92, 0.3);
+}
+
+/* Pita hadiah */
+.ribbon {
+  position: absolute;
+  background: #ffd700;
+  width: 100%;
+  height: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ribbon.vertical {
+  width: 15px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#giftCaption {
+  color: #ff405c;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Efek hover */
+.gift-shape:hover {
+  transform: scale(1.05) rotate(-5deg);
+}
+
+/* Animasi buka kado */
+@keyframes openGift {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(0) rotate(45deg); }
+}
+/* CSS Tambahan */
+.burst-animation {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.play-text {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff3366;
+  text-shadow: 1px 1px 3px white;
+  opacity: 0;
+  z-index: 11;
+  white-space: nowrap;
+}
+
+/* Animasi */
+@keyframes burst {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+@keyframes textPop {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+  </style>
+</head>
+<body>
+  <div id="loginScreen" role="main" aria-label="Halaman login">
+     <img src="https://private-user-images.githubusercontent.com/128163960/446017497-463037b0-f744-4673-8cee-233edcfdc8ef.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDc4MjEzMDAsIm5iZiI6MTc0NzgyMTAwMCwicGF0aCI6Ii8xMjgxNjM5NjAvNDQ2MDE3NDk3LTQ2MzAzN2IwLWY3NDQtNDY3My04Y2VlLTIzM2VkY2ZkYzhlZi5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTIxJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUyMVQwOTUwMDBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wNTRmZDZmMDUwYjE5ODNjOWJjNzMyYmEzZmM0ZWZlODMxYTExOGQ2YzZlNzY0NWJhNjE4OTkwMDA5N2ZhYzk4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.5hjLUP-WOtTullOzYUkICkF44A9nWtTHPnwV1L-kS08" alt="Profile Picture" class="profile-circle" id="profileImage">
+    <h1>Login Dulu ya Belll hehe</h1>
+    <form id="loginForm" aria-describedby="loginDesc" novalidate>
+      <p id="loginDesc" style="color:#ff405c;font-weight:600;"></p>
+      <label for="username">Nama kmu</label>
+      <input type="text" id="username" name="username" autocomplete="off" required aria-required="true" aria-label="Masukkan nama"/>
+      <label for="password">Password nya sama</label>
+      <input type="password" id="password" name="password" autocomplete="off" required aria-required="true" aria-label="Masukkan password"/>
+      <button type="submit">Masuk</button>
+      <p class="error" id="loginError" role="alert" aria-live="assertive"></p>
+    </form>
+  </div>
+<audio id="loginSound" preload="auto">
+  <source src="https://a.top4top.io/m_342889woi1.mp3" type="audio/mpeg">
+</audio>
+  <div id="greetingScreen" role="main" aria-label="Ucapan ulang tahun">
+    <canvas id="confetti-canvas"></canvas>
+    <h2 class="bounceIn">Selamat Ulang Tahun Belaa...</h2>
+    <p class="fadeInDelay">
+      Semoga hari ulang tahunmu dipenuhi dengan kebahagiaan, cinta, dan tawa 
+      Jika cita-cita impian dan kenginan hanya sebatas mimpi, diusia saat ini semoga cepat tercapaii yaaa..... Semangatttttt
+      Semoga kehidupanmu selalu cerah dan penuh berkah.
+      <br>-dari majid-
+    </p>
+  <div id="giftWrapper">
+    <div class="small-gift-box" id="smallGiftBox">
+      <div class="gift-lid"></div>
+      <div class="gift-bow"></div>
+    </div>
+    <p class="gift-hint">Pesan Rahasia hihi</p>
+  </div>
+
+  <div id="memoryBox" style="display:none;">
+    <div class="burst-animation"></div>
+    <div class="play-text"><br><br><br><br><br><br><br><br><br><br> jajan dan main lagi nihh hahaha</div>
+  </div>
+</div>
+  <audio id="birthdayMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/08/23/audio_b329558d35.mp3?filename=birthday-5234.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    (function() {
+      const correctName = 'bela'; // username and password must match this exactly (case sensitive)
+      const loginForm = document.getElementById('loginForm');
+      const loginError = document.getElementById('loginError');
+      const loginScreen = document.getElementById('loginScreen');
+      const greetingScreen = document.getElementById('greetingScreen');
+      const birthdayMusic = document.getElementById('birthdayMusic');
+
+      // Handle login submission
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = loginForm.username.value.trim();
+        const password = loginForm.password.value.trim();
+
+        if(username === '' || password === '') {
+          showError('Nama dan password wajib diisi!');
+          return;
+        }
+
+        if(username === correctName && password === correctName) {
+          loginSuccess();
+        } else {
+          showError('Nama atau password salah. Coba lagi!');
+        }
+      });
+      function showError(msg) {
+        loginError.textContent = msg;
+      }
+
+      function loginSuccess() {
+        loginError.textContent = '';
+        loginScreen.style.display = 'none';
+        greetingScreen.style.display = 'block';
+        birthdayMusic.play().catch(() => {
+          // Autoplay might be prevented, wait for user interaction to resume later if needed
+        });
+        startConfetti();
+      }
+function loginSuccess() {
+  // 1. Sembunyikan form login
+  loginScreen.style.display = 'none';
+  
+  // 2. Tampilkan ucapan ulang tahun
+  greetingScreen.style.display = 'block';
+  
+  // 3. Mainkan suara login (WAJIB ada ini)
+  const loginSound = document.getElementById('loginSound');
+  loginSound.volume = 0.5; // Atur volume (0-1)
+  loginSound.play().catch(e => {
+    console.log("Browser memblokir autoplay:", e);
+    // Opsional: Tampilkan tombol play manual
+    alert("Klik OK untuk putar suara!");
+    loginSound.play();
+  });
+  
+  // 4. Trigger confetti
+  startConfetti();
+}
+      // Confetti animation adapted from https://codepen.io/danielcwang/pen/BaBOPgN
+      const confettiCanvas = document.getElementById('confetti-canvas');
+      const ctx = confettiCanvas.getContext('2d');
+      let W, H;
+      let confettiParticles = [];
+      const colors = ['#ffe3e3', '#ff7f91', '#ff4c62', '#ffd6d6', '#ffa5aa'];
+
+      function resizeCanvas() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        confettiCanvas.width = W;
+        confettiCanvas.height = H;
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+
+      function ConfettiParticle() {
+        this.x = Math.random() * W;
+        this.y = Math.random() * H - H;
+        this.r = Math.random() * 6 + 4;
+        this.d = Math.random() * 20 + 10;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.tilt = Math.floor(Math.random() * 10) - 10;
+        this.tiltAngleIncrement = (Math.random() * 0.07) + 0.05;
+        this.tiltAngle = 0;
+      }
+
+      ConfettiParticle.prototype.draw = function() {
+        ctx.beginPath();
+        ctx.lineWidth = this.r / 2;
+        ctx.strokeStyle = this.color;
+        ctx.moveTo(this.x + this.tilt + this.r / 4, this.y);
+        ctx.lineTo(this.x + this.tilt, this.y + this.tilt + this.r / 4);
+        ctx.stroke();
+      }
+
+      let animationFrameId;
+      function startConfetti() {
+        resizeCanvas();
+        confettiParticles = [];
+        for(let i = 0; i < 150; i++) {
+          confettiParticles.push(new ConfettiParticle());
+        }
+        runConfetti();
+      }
+
+      function runConfetti() {
+        ctx.clearRect(0, 0, W, H);
+        for(let i=0; i < confettiParticles.length; i++) {
+          let p = confettiParticles[i];
+          p.tiltAngle += p.tiltAngleIncrement;
+          p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+          p.x += Math.sin(p.d);
+          p.tilt = Math.sin(p.tiltAngle) * 15;
+          if(p.y > H){
+            p.x = Math.random() * W;
+            p.y = -10;
+            p.tilt = Math.floor(Math.random() * 10) - 10;
+          }
+          p.draw();
+        }
+        animationFrameId = requestAnimationFrame(runConfetti);
+      }
+    })();
+document.getElementById('giftWrapper').addEventListener('click', function() {
+  const giftBox = document.getElementById('smallGiftBox');
+  const memoryBox = document.getElementById('memoryBox');
+  
+  // Animasi buka kado
+  giftBox.style.transform = "scale(0) rotate(360deg)";
+  giftBox.style.opacity = "0";
+  
+  // Tampilkan memory box
+  setTimeout(() => {
+    memoryBox.style.display = "block";
+    
+    // Trigger animasi burst
+    const burst = document.querySelector('.burst-animation');
+    burst.style.animation = "burst 1s forwards";
+    
+    // Trigger animasi text
+    setTimeout(() => {
+      document.querySelector('.play-text').style.animation = "textPop 0.8s forwards";
+    }, 300);
+    
+    // Tampilkan foto setelah animasi
+    setTimeout(() => {
+      document.querySelector('.memory-photo').style.opacity = "1";
+    }, 1000);
+    
+  }, 500);
+});
+  </script>
+
+</body>
+</html>
